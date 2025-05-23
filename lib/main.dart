@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'pages/MyHomePage.dart';
+import 'provider/changeNotifier.dart';
 
 var logger = Logger();
 
@@ -14,13 +16,15 @@ class MyApp extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purpleAccent),
-        fontFamily: 'IBMPlexMono'
-      ),
-      home: const MyHomePage(title: 'HomePage'),
-    );
+    return ChangeNotifierProvider<AppData>( 
+          create: (context) => AppData(), 
+          child: MaterialApp( 
+          title: 'My App', 
+          theme: ThemeData( 
+          primarySwatch: Colors.blue, 
+         ), 
+        home: MyHomePage(title: 'Flutter Demo Home Page'), 
+      ), 
+    ); 
   }
 }

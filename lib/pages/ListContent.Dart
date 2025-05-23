@@ -39,17 +39,19 @@ class _ListContentState extends State<ListContent> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 70, width: 400,
-          child: const Text('En esta página se muestra mucho contenido, como este texto. Hola! soy el texto del contenido!')),
+          child: const Text('En esta página se muestra mucho contenido, como este texto. Hola! soy el texto del contenido!\n ')),
           const SizedBox(height: 70),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FloatingActionButton(
+                heroTag: null,
                 onPressed: () => _changePage(1),
                 child: const Text("Home"),
               ),
               const SizedBox(width: 20),
               FloatingActionButton(
+                heroTag: null,
                 onPressed: () => _changePage(2),
                 child: const Text("About"),
               ),

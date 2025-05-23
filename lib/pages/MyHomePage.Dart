@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../pages/ListContent.dart';
+import '../provider/changeNotifier.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -9,30 +11,52 @@ class MyHomePage extends StatefulWidget {
 
     @override
     State<MyHomePage> createState() {
-      print('createState');
+      print('createState llamado');
       return _MyHomePageState();
     }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   int _counter = 0;
   String assetName = 'assets/icons/sillyicon.svg';
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState(); 
+    print('initState() llamado - mounted: $mounted');
   }
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies(); 
+    print('didChangeDependencies() llamado');
   }
-  void _resetCounter() {
-    setState(() {
-      _counter = 0;
-    });
+
+  @override
+  void didUpdateWidget(covariant MyHomePage oldWidget) {
+    super.didUpdateWidget(oldWidget); 
+    print('didUpdateWidget() llamado');
   }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print('deactivate() llamado');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose() llamado');
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    print('reassemble() llamado - mounted: $mounted');
+  }
+
   void _changePage() {
     Navigator.push(
       context,
@@ -41,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    print('build() llamado');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -62,21 +87,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 50,
                 ),
                 const Text('Flutter es un FRAMEWORK!'),
-                Text('$_counter'),
+                Text('${context.watch<AppData>().counter}'),
                 const SizedBox(height:30, width: 300),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
-                    onPressed: _incrementCounter,
-                    child: const Icon(Icons.add, color: Colors.white),
+                      onPressed: context.read<AppData>().incrementCounter,
+                      child: const Icon(Icons.add, color: Colors.white),
                     ),
                     TextButton(
-                      onPressed: _decrementCounter,
+                      onPressed: context.read<AppData>().decrementCounter,
                       child: const Icon(Icons.remove, color: Colors.white),
                     ),
                     TextButton(
-                      onPressed: _resetCounter,
+                      onPressed: context.read<AppData>().resetCounter,
                       child: const Icon(Icons.refresh, color: Colors.white),
                     ),
                   ]
@@ -86,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           FloatingActionButton(
+          heroTag: null,
           onPressed: _changePage,
           tooltip: 'Ir a página',
           child: Icon(Icons.arrow_right_alt_outlined),
