@@ -8,8 +8,8 @@ var logger = Logger();
 
 void main() {
   logger.d("Logger is working!");
-  runApp(const MyApp());
-}
+  WidgetsFlutterBinding.ensureInitialized(); 
+  runApp(const MyApp()); }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

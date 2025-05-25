@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -14,7 +13,7 @@ class PreferencesPage extends StatefulWidget {
 
 class PreferencesPageState extends State<PreferencesPage> {
 
-  bool _isResetEnabled = false;
+  bool _isResetEnabled = true;
   String assetName = 'assets/icons/pirateSkull.svg';
 
   Future<void> _loadPreferences() async { 
@@ -58,13 +57,7 @@ class PreferencesPageState extends State<PreferencesPage> {
         children: [
           const SizedBox(height: 50),
           const SizedBox(height: 50, width: 250,
-          child: Text('Pablo Escobar estuvo aquí')),
-          SvgPicture.asset(
-                  assetName,
-                  semanticsLabel: 'PIRATAAAAA',
-                  width: 70,
-                  height: 70,
-          ),
+          child: Text('Esta es la pantalla de preferencias')),
           const SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -75,6 +68,16 @@ class PreferencesPageState extends State<PreferencesPage> {
               )
             ],
           ),
+          SwitchListTile(
+          title: const Text('Habilitar botón de reinicio'),
+          value: _isResetEnabled,
+          onChanged: (bool value) {
+            setState(() {
+              _isResetEnabled = value;
+            });
+            _savePreferences();
+          },
+        ),
         ],
       ),
     )
