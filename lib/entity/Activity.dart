@@ -9,20 +9,17 @@ class Activity {
     required this.name,
   });
 
-  // Convierte la instancia a un Map para SQLite
   Map<String, Object?> toMap() {
     return {
       'id': id,
-      'date': date.toIso8601String(), // Guardar como String ISO
+      'date': date.toIso8601String(),
       'name': name,
     };
   }
-
-  // Crea una instancia desde un Map (por ejemplo, desde SQLite)
   factory Activity.fromMap(Map<String, dynamic> map) {
     return Activity(
       id: map['id'],
-      date: DateTime.parse(map['date']), // Convertir String a DateTime
+      date: DateTime.parse(map['date']),
       name: map['name'],
     );
   }

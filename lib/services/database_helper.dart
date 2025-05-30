@@ -53,4 +53,30 @@ factory DatabaseHelper() {
     conflictAlgorithm: ConflictAlgorithm.replace, 
     ); 
     } 
+
+    Future<List<Activity>> getActivities() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('activities');
+    return List.generate(maps.length, (i) => Activity.fromMap(maps[i]));
+  }
+
+  Future<void> updateActivity(Activity activity) async {
+    final db = await database;
+    await db.update(
+      'activities',
+      activity.toMap(),
+      where: 'id = ?',
+      whereArgs: [activity.id],
+    );
+  }
+
+  Future<void> deleteActivity(int id) async {
+    final db = await database;
+    await db.delete(
+      'activities',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
 }

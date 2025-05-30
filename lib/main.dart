@@ -1,3 +1,4 @@
+import 'package:application_laboratorio/services/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -6,10 +7,12 @@ import 'provider/changeNotifier.dart';
 
 var logger = Logger();
 
-void main() {
+void main() async{
   logger.d("Logger is working!");
   WidgetsFlutterBinding.ensureInitialized(); 
-  runApp(const MyApp()); }
+  await DatabaseHelper().initializeDatabase(); 
+  runApp(const MyApp());
+  }  
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
