@@ -6,6 +6,8 @@ import '../pages/Preferences.dart';
 import '../provider/changeNotifier.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -19,6 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   bool _isResetEnabled = true;
   String assetName = 'assets/icons/sillyicon.svg';
+  String _imageUrl = 'https://picsum.photos/250?image=0';
 
   static const List<String> _titles = [
     'HomePage',
@@ -55,6 +58,28 @@ class _MyHomePageState extends State<MyHomePage> {
       _loadPreferences();
     });
   }
+
+  Future<void> _getNewImage() async {
+      int imageURLNumber = context.read<AppData>().counter;
+      final newImageUrl = 'https://picsum.photos/250?image=$imageURLNumber';
+      try {
+        final response = await http.head(Uri.parse(newImageUrl));
+        if (response.statusCode == 200) {
+          setState(() {
+            _imageUrl = newImageUrl;
+          });
+        } else {
+          setState(() {
+            _imageUrl = '';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          _imageUrl = '';
+        });
+      }
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +137,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                         const SizedBox(height: 30, width: 300),
+                        TextButton(
+                          onPressed: _getNewImage,
+                          child: const Text('Refresh Image'),
+                        ),
+                        Image.network( 
+                            _imageUrl.isNotEmpty ? _imageUrl : '', 
+                            width: 250, 
+                            height: 250, 
+                            fit: BoxFit.cover, 
+                            errorBuilder: (context, error, stackTrace) { 
+                            return Center( 
+                              child: Text( 
+                              'Failed to load image', 
+                              style: TextStyle(color: Colors.red), 
+                              ), 
+                            ); 
+                          }, 
+                        ) 
                       ],
                     ),
                   ),

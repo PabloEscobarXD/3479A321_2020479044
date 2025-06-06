@@ -7,10 +7,10 @@ import 'provider/changeNotifier.dart';
 
 var logger = Logger();
 
-void main() async{
+void main() {
   logger.d("Logger is working!");
   WidgetsFlutterBinding.ensureInitialized(); 
-  await DatabaseHelper().initializeDatabase(); 
+  //await DatabaseHelper().initializeDatabase(); 
   runApp(const MyApp());
   }  
 
